@@ -30,7 +30,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "ros/ros.h"
+// #include "ros/ros.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +40,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <string>
-#include "adi_driver/adis16470.h"
+#include "adi_driver2/adis16470.h"
 
 /**
  * @brief change big endian 2 byte into short
@@ -376,7 +376,6 @@ int Adis16470::set_bias_estimation_time(int16_t tbc)
   int16_t dummy = 0;
   read_register(0x66, dummy);
   read_register(0x00, tbc);
-  ROS_INFO("TBC: %04x", tbc);
   return 0;
 }
 
