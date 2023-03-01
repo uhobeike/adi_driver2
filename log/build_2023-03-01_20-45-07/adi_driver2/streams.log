@@ -1,0 +1,87 @@
+[0.009s] Invoking command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake /home/y-takahashi/ros2_ws/src/adi_driver2 -DCMAKE_INSTALL_PREFIX=/home/y-takahashi/ros2_ws/src/adi_driver2/install/adi_driver2
+[0.044s] -- The C compiler identification is GNU 9.4.0
+[0.079s] -- The CXX compiler identification is GNU 9.4.0
+[0.081s] -- Check for working C compiler: /usr/bin/cc
+[0.138s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.138s] -- Detecting C compiler ABI info
+[0.178s] -- Detecting C compiler ABI info - done
+[0.185s] -- Detecting C compile features
+[0.185s] -- Detecting C compile features - done
+[0.186s] -- Check for working CXX compiler: /usr/bin/c++
+[0.235s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[0.236s] -- Detecting CXX compiler ABI info
+[0.291s] -- Detecting CXX compiler ABI info - done
+[0.299s] -- Detecting CXX compile features
+[0.300s] -- Detecting CXX compile features - done
+[0.302s] -- Found ament_cmake_auto: 0.9.11 (/opt/ros/foxy/share/ament_cmake_auto/cmake)
+[0.322s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[0.322s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.517s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.520s] -- Found rosidl_adapter: 1.3.0 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[0.566s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[0.584s] -- Found FastRTPS: /opt/ros/foxy/include  
+[0.630s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.663s] -- Found rmw_implementation_cmake: 1.0.3 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[0.663s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.664s] -- Looking for pthread.h
+[0.708s] -- Looking for pthread.h - found
+[0.708s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.783s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[0.783s] -- Looking for pthread_create in pthreads
+[0.828s] -- Looking for pthread_create in pthreads - not found
+[0.828s] -- Looking for pthread_create in pthread
+[0.889s] -- Looking for pthread_create in pthread - found
+[0.890s] -- Found Threads: TRUE  
+[1.090s] -- Found ament_lint_auto: 0.9.7 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[1.100s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.100s] -- Configured cppcheck include dirs: /home/y-takahashi/ros2_ws/src/adi_driver2/include
+[1.100s] -- Configured cppcheck exclude dirs and/or files: 
+[1.101s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.102s] -- Added test 'lint_cmake' to check CMake code style
+[1.102s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[1.105s] -- Added test 'uncrustify' to check C / C++ code style
+[1.105s] -- Configured uncrustify additional arguments: 
+[1.105s] -- Added test 'xmllint' to check XML markup files
+[1.108s] -- Configuring done
+[1.113s] -- Generating done
+[1.114s] -- Build files have been written to: /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2
+[1.119s] Invoked command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake /home/y-takahashi/ros2_ws/src/adi_driver2 -DCMAKE_INSTALL_PREFIX=/home/y-takahashi/ros2_ws/src/adi_driver2/install/adi_driver2
+[1.120s] Invoking command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2 -- -j12 -l12
+[1.146s] [35m[1mScanning dependencies of target adis16465[0m
+[1.166s] [ 33%] [32mBuilding CXX object CMakeFiles/adis16465.dir/src/adis16465.cpp.o[0m
+[1.168s] [ 66%] [32mBuilding CXX object CMakeFiles/adis16465.dir/src/adis16465_node.cpp.o[0m
+[1.267s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::get_product_id(int16_t&)[m[K’:
+[1.267s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:152:7:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kr[m[K’ [[01;35m[K-Wunused-variable[m[K]
+[1.267s]   152 |   int [01;35m[Kr[m[K;
+[1.267s]       |       [01;35m[K^[m[K
+[1.267s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::read_register(char, int16_t&)[m[K’:
+[1.267s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:213:34:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[Kaddress[m[K’ from ‘[01m[Kchar[m[K’ to ‘[01m[Kunsigned char[m[K’ [[01;35m[K-Wnarrowing[m[K]
+[1.267s]   213 |   unsigned char buff[3] = {0x61, [01;35m[Kaddress[m[K, 0x00};
+[1.267s]       |                                  [01;35m[K^~~~~~~[m[K
+[1.268s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::bias_correction_update()[m[K’:
+[1.268s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:392:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+[1.268s]   392 | [01;35m[K}[m[K
+[1.268s]       | [01;35m[K^[m[K
+[1.284s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::read_register(char, int16_t&)[m[K’:
+[1.284s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:230:8:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+[1.284s]   230 |   [01;35m[Kdata = big_endian_to_short(&buff[1])[m[K;
+[1.284s]       |   [01;35m[K~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.937s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:[m[K In member function ‘[01m[Kbool adi_driver2::ImuNode::open()[m[K’:
+[1.937s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:97:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kusleep[m[K’ was not declared in this scope
+[1.937s]    97 |   [01;31m[Kusleep[m[K(10000);
+[1.937s]       |   [01;31m[K^~~~~~[m[K
+[1.937s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:102:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+[1.937s]   102 | [01;35m[K}[m[K
+[1.937s]       | [01;35m[K^[m[K
+[1.941s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:[m[K In member function ‘[01m[Kint adi_driver2::ImuNode::publish_imu_data()[m[K’:
+[1.941s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:126:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+[1.941s]   126 | [01;35m[K}[m[K
+[1.941s]       | [01;35m[K^[m[K
+[1.945s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:[m[K In member function ‘[01m[Kint adi_driver2::ImuNode::publish_temp_data()[m[K’:
+[1.945s] [01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:137:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+[1.945s]   137 | [01;35m[K}[m[K
+[1.945s]       | [01;35m[K^[m[K
+[2.545s] make[2]: *** [CMakeFiles/adis16465.dir/build.make:76: CMakeFiles/adis16465.dir/src/adis16465_node.cpp.o] エラー 1
+[2.545s] make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/adis16465.dir/all] エラー 2
+[2.545s] make: *** [Makefile:141: all] エラー 2
+[2.547s] Invoked command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2' returned '2': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2 -- -j12 -l12

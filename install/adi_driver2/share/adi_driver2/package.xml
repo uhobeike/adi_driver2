@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>adi_driver2</name>
+  <version>2.0.0</version>
+  <description>The adi_driver2 package</description>
+  <maintainer email="beike315@icloud.com">Tatsuhiro Ikebe</maintainer>
+
+  <license>BSD</license>
+
+  <author email="beike315@icloud.com">Tatsuhiro Ikebe</author>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>imu_filter_madgwick</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>rviz</depend>
+  <depend>rviz_imu_plugin</depend>
+  <depend>rqt_plot</depend>
+  <depend>xacro</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+  
+</package>
