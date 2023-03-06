@@ -1,0 +1,4 @@
+Invoking command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2 -- -j12 -l12
+Invoked command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2 -- -j12 -l12
+Invoking command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2
+Invoked command in '/home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2
