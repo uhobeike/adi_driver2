@@ -6,6 +6,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetLaunchConfiguration, IncludeLaunchDescription, GroupAction
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
     dir = '/home/taka4/ros2_ws/src/adi_driver2'
@@ -21,6 +22,11 @@ def generate_launch_description():
     rate = LaunchConfiguration('rate')
     publish_tf = LaunchConfiguration('publish_tf')
     publish_debug_topics = LaunchConfiguration('publish_debug_topics')
+
+    xacro_file_name = 'orne_gamma.urdf.xacro'
+    xacro_file_path = os.path.join(urdf, 'gamma', xacro_file_name)
+    urdf_file_name = 'adis16465_breakout.urdf'
+    urdf_file_path = '/home/taka4/ros2_ws/src/ari_driver2/urdf'
 
     declare_nameapace_cmd = DeclareLaunchArgument(
         'namespace', 
@@ -86,6 +92,26 @@ def generate_launch_description():
         'publish_debug_topics', 
         default_value = 'false', 
         description = 'use publish_debug_topics: true or false'
+    )
+
+    configured_params = LaunchConfiguration(
+        source_file = device, flame_id, burst_read, publish_temperature, rate
+    )
+
+    IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(xacro_file_path, 'orne_gamma.urdf.xacro'))
+            conditions = IfCondition(with_rviz), 
+            launch_arguments = {
+                'namespace': namespace}.items() 
+    ), 
+
+    Node(
+        package = 'imu', 
+        executable = 'adis16465_node', 
+        name = 'adis16465?node', 
+        outout = 'screen', 
+        parameters = [configured_params]
     )
 
     #<param>if
