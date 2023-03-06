@@ -1,51 +1,126 @@
 from launch_ros.actions import Node
 
+from ament_index_python.packages import get_package_share_directory
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetLaunchConfiguration
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetLaunchConfiguration, IncludeLaunchDescription, GroupAction
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PythonExpression
 
 def generate_launch_description():
-        ld = LaunchDescription()
+    dir = '/home/taka4/ros2_ws/src/adi_driver2'
+    
+    namespace = LaunchConfiguration('namespace')
+    with_filter = LaunchConfiguration('with_filter')
+    with_rviz = LaunchConfiguration('with_rviz')
+    with_plot = LaunchConfiguration('with_plot')
+    device = LaunchConfiguration('device')
+    farame_id = LaunchConfiguration('flame_id')
+    burst_read = LaunchConfiguration('burst_read')
+    publish_temperature = LaunchConfiguration('publish_temperature')
+    rate = LaunchConfiguration('rate')
+    publish_tf = LaunchConfiguration('publish_tf')
+    publish_debug_topics = LaunchConfiguration('publish_debug_topics')
 
-        ld.add_action(DeclareLaunchArgument('with_filter', default_value='True', description='Description of wirh_filter'))
+    declare_nameapace_cmd = DeclareLaunchArgument(
+        'namespace', 
+        default_value = '', 
+        description = 'namespace'
+    )
 
-        ld.add_action(DeclareLaunchArgument('with_rviz', default_value='False', description='Description of wirh_rviz'))
+    declare_with_filter_cmd = DeclareLaunchArgument(
+        'with_filter', 
+        default_value = 'true', 
+        description = 'use with_filter: true or false'
+    )
 
-        ld.add_action(DeclareLaunchArgument('with_plot', default_value='False', description='Description of wirh_plot'))
+    declare_with_rviz_cmd = DeclareLaunchArgument(
+        'with_rviz', 
+        default_value = 'false', 
+        description = 'use with_rviz: true or false'
+    )
 
-        ld.add_action(DeclareLaunchArgument('device', default_value='dev/sensors/imu16465', description='Description of device'))
-        
-        ld.add_action(DeclareLaunchArgument('flame_id', default_value='imu_link', description='Description of flame_id'))
+    declare_with_plot_cmd = DeclareLaunchArgument(
+        'with_plot', 
+        default_value = 'false', 
+        description = 'use with_plot: true or false'
+    )
 
-        ld.add_action(DeclareLaunchArgument('burst_read', default_value='False', description='Description of burst_read'))
+    declare_device_cmd = DeclareLaunchArgument(
+        'device', 
+        default_value = '/dev/sensors/imu16465', 
+        description = 'device: input full path'
+    )
 
-        ld.add_action(DeclareLaunchArgument('publish_temperature', default_value='False', description='Description of publish_temperature'))
+    declare_flame_id_cmd = DeclareLaunchArgument(
+        'flame_id', 
+        default_value = 'imu_link', 
+        description = 'flame_id: input anything flame_id'
+    )
 
-        ld.add_action(DeclareLaunchArgument('rate', default_value='100', description='Description of rate'))
+    declare_burst_read_cmd = DeclareLaunchArgument(
+        'burst_read', 
+        default_value = 'false', 
+        description = 'use burst_read: true or false'
+    )
 
-        ld.add_action(DeclareLaunchArgument('publish', default_value='False', description='Description of publish'))
+    declare_publish_temperature_cmd = DeclareLaunchArgument(
+        'publish_temperature', 
+        default_value = 'false', 
+        description = 'use temperature: true or false'
+    )
 
-        ld.add_action(DeclareLaunchArgument('publish_debug_topic', default_value='false', description='Description of wpublish_debuf_topic'))
+    declare_rate_cmd = DeclareLaunchArgument(
+        'rate', 
+        default_value = '100', 
+        description = 'rate: anything value rate'
+    )
 
-        ld.add_action(SetLaunchConfiguration(
-                name='device', value=LaunchConfiguration('false')
-        ))
+    declare_publish_tf_cmd = DeclareLaunchArgument(
+        'publish_tf', 
+        default_value = 'false', 
+        description = 'use publish_tf: true or false'
+    )
 
-        ld.add_action(Node(
-            package='adi_driver2', 
-            namespace='adi_driver2', 
-            executable='adis16465_node',
-            output='screen',
-            respawn='true', 
-            name='adis16465_node',
-            parameters=[{'device': LaunchConfiguration('')}]
-        ))
+    declare_publish_debug_topics_cmd = DeclareLaunchArgument(
+        'publish_debug_topics', 
+        default_value = 'false', 
+        description = 'use publish_debug_topics: true or false'
+    )
 
-        ld.add_action(Node(
-                ExecuteProcess(
-                    condition=IfCondition(LaunchConfiguration('with_filter'))
-                )
-        ))
+    #<param>if
 
-        return ld
+    #<node>
+        #<param>
+        #<param>
+        #<param>
+        #<param>
+        #<param>
+
+    #<node>if
+        #<param>
+        #<param>
+        #<param>
+            #<remap>
+
+    #<node>if
+
+    #<group>if
+        #<node>
+        #<node>
+
+    ld = LaunchDescription()
+
+    ld.add_action(declare_nameapace_cmd)
+    ld.add_action(declare_with_filter_cmd)
+    ld.add_action(declare_with_rviz_cmd)
+    ld.add_action(declare_with_plot)
+    ld.add_action(declare_device_cmd)
+    ld.add_action(declare_flame_id_cmd)
+    ld.add_action(declare_burst_read_cmd)
+    ld.add_action(declare_publish_temperature_cmd)
+    ld.add_action(declare_rate_cmd)
+    ld.add_action(declare_publish_tf_cmd)
+    ld.add_action(declare_publish_debug_topics_cmd)
+
+    return ld
