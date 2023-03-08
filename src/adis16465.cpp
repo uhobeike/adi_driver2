@@ -40,7 +40,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <string>
-#include "adi_driver2/adis16470.h"
+#include "adi_driver2/adis16465.h"
 
 /**
  * @brief change big endian 2 byte into short
@@ -67,7 +67,7 @@ void short_to_big_endian(unsigned char *buff, int16_t data)
 /**
  * @brief Constructor
  */
-Adis16470::Adis16470()
+Adis16465::Adis16465()
   : fd_(-1)
 {
 }
@@ -78,7 +78,7 @@ Adis16470::Adis16470()
  * @retval 0 Success
  * @retval -1 Failure
  */
-int Adis16470::openPort(const std::string device)
+int Adis16465::openPort(const std::string device)
 {
   fd_ = open(device.c_str(), O_RDWR | O_NOCTTY);
   if (fd_ < 0)
@@ -132,7 +132,7 @@ int Adis16470::openPort(const std::string device)
 /**
  * @brief Close device
  */
-void Adis16470::closePort()
+void Adis16465::closePort()
 {
   if (tcsetattr(fd_, TCSANOW, &defaults_) < 0)
   {
@@ -146,7 +146,7 @@ void Adis16470::closePort()
  * @retval 0 Success
  * @retval -1 Failed
  */
-int Adis16470::get_product_id(int16_t& pid)
+int Adis16465::get_product_id(int16_t& pid)
 {
   // get product ID
   int r;
@@ -208,7 +208,7 @@ int Adis16470::get_product_id(int16_t& pid)
  * - Adress is the first byte of actual address
  * - Actual data at the adress will be returned by next call.
  */
-int Adis16470::read_register(char address, int16_t& data)
+int Adis16465::read_register(char address, int16_t& data)
 {
   unsigned char buff[3] = {0x61, address, 0x00};
   int size = write(fd_, buff, 3);
@@ -239,7 +239,7 @@ int Adis16470::read_register(char address, int16_t& data)
  * - Adress is the first byte of actual address.
  * - Specify data at the adress.
  */
-int Adis16470::write_register(char address, int16_t data)
+int Adis16465::write_register(char address, int16_t data)
 {
   unsigned char buff[5] = {0x61, 0x00, 0x00, 0x00, 0x00};
   // Set R~/W bit 1
@@ -283,7 +283,7 @@ int Adis16470::write_register(char address, int16_t data)
  * - See burst read function at pp.14 
  * - Data resolution is 16 bit
  */
-int Adis16470::update_burst(void)
+int Adis16465::update_burst(void)
 {
   unsigned char buff[64] = {0};
   // 0x6800: Burst read function
@@ -333,7 +333,7 @@ int Adis16470::update_burst(void)
 /**
  * @brief update gyro and accel in high-precision read
  */
-int Adis16470::update(void)
+int Adis16465::update(void)
 {
   int16_t gyro_out[3], gyro_low[3], accl_out[3], accl_low[3], temp_out;
 
@@ -369,7 +369,7 @@ int Adis16470::update(void)
  * @retval 0 Success
  * @retval -1 Failed
  */
-int Adis16470::set_bias_estimation_time(int16_t tbc)
+int Adis16465::set_bias_estimation_time(int16_t tbc)
 {
   write_register(0x66, tbc);
   tbc = 0;
@@ -384,7 +384,7 @@ int Adis16470::set_bias_estimation_time(int16_t tbc)
  * @retval 0 Success
  * @retval -1 Failed
  */
-int Adis16470::bias_correction_update(void)
+int Adis16465::bias_correction_update(void)
 {
   // Bit0: Bias correction update
   int16_t data = 1;

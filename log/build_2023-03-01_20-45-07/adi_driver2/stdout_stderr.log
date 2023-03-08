@@ -1,0 +1,83 @@
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake_auto: 0.9.11 (/opt/ros/foxy/share/ament_cmake_auto/cmake)
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Found rosidl_adapter: 1.3.0 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+-- Found FastRTPS: /opt/ros/foxy/include  
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 1.0.3 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found ament_lint_auto: 0.9.7 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: /home/y-takahashi/ros2_ws/src/adi_driver2/include
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/y-takahashi/ros2_ws/src/adi_driver2/build/adi_driver2
+[35m[1mScanning dependencies of target adis16465[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/adis16465.dir/src/adis16465.cpp.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/adis16465.dir/src/adis16465_node.cpp.o[0m
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::get_product_id(int16_t&)[m[K’:
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:152:7:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kr[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  152 |   int [01;35m[Kr[m[K;
+      |       [01;35m[K^[m[K
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::read_register(char, int16_t&)[m[K’:
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:213:34:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[Kaddress[m[K’ from ‘[01m[Kchar[m[K’ to ‘[01m[Kunsigned char[m[K’ [[01;35m[K-Wnarrowing[m[K]
+  213 |   unsigned char buff[3] = {0x61, [01;35m[Kaddress[m[K, 0x00};
+      |                                  [01;35m[K^~~~~~~[m[K
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::bias_correction_update()[m[K’:
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:392:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+  392 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:[m[K In member function ‘[01m[Kint Adis16465::read_register(char, int16_t&)[m[K’:
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465.cpp:230:8:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+  230 |   [01;35m[Kdata = big_endian_to_short(&buff[1])[m[K;
+      |   [01;35m[K~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:[m[K In member function ‘[01m[Kbool adi_driver2::ImuNode::open()[m[K’:
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:97:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kusleep[m[K’ was not declared in this scope
+   97 |   [01;31m[Kusleep[m[K(10000);
+      |   [01;31m[K^~~~~~[m[K
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:102:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+  102 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:[m[K In member function ‘[01m[Kint adi_driver2::ImuNode::publish_imu_data()[m[K’:
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:126:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+  126 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:[m[K In member function ‘[01m[Kint adi_driver2::ImuNode::publish_temp_data()[m[K’:
+[01m[K/home/y-takahashi/ros2_ws/src/adi_driver2/src/adis16465_node.cpp:137:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+  137 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+make[2]: *** [CMakeFiles/adis16465.dir/build.make:76: CMakeFiles/adis16465.dir/src/adis16465_node.cpp.o] エラー 1
+make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/adis16465.dir/all] エラー 2
+make: *** [Makefile:141: all] エラー 2

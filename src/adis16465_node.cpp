@@ -37,13 +37,14 @@
 // #include "adi_driver/adis16470.h"
 // #include "std_srvs/Trigger.h"
 
-#include "adi_driver2/adis16470_node.hpp"
+#include "adi_driver2/adis16465_node.hpp"
+#include <unistd.h>
 
 using namespace std::chrono_literals;
 
 namespace adi_driver2 {
 
-ImuNode::ImuNode() : Node("adis16470_node") {
+ImuNode::ImuNode() : Node("adis16465_node") {
   // Read parameters
   declare_parameter("device", "/dev/ttyACM0");
   declare_parameter("frame_id", "imu");
@@ -94,7 +95,8 @@ bool ImuNode::open(void) {
                  device_.c_str());
   }
   // Wait 10ms for SPI ready
-  usleep(10000);
+  // usleep(10000);
+  sleep(10000);
   int16_t pid = 0;
   imu.get_product_id(pid);
   RCLCPP_INFO(this->get_logger(), "Product ID: %x\n", pid);
