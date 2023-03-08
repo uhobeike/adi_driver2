@@ -1,3 +1,4 @@
+import os
 from launch_ros.actions import Node
 
 from ament_index_python.packages import get_package_share_directory
@@ -16,17 +17,17 @@ def generate_launch_description():
     with_rviz = LaunchConfiguration('with_rviz')
     with_plot = LaunchConfiguration('with_plot')
     device = LaunchConfiguration('device')
-    farame_id = LaunchConfiguration('flame_id')
+    flame_id = LaunchConfiguration('flame_id')
     burst_read = LaunchConfiguration('burst_read')
     publish_temperature = LaunchConfiguration('publish_temperature')
     rate = LaunchConfiguration('rate')
     publish_tf = LaunchConfiguration('publish_tf')
     publish_debug_topics = LaunchConfiguration('publish_debug_topics')
 
-    xacro_file_name = 'orne_gamma.urdf.xacro'
-    xacro_file_path = os.path.join(urdf, 'gamma', xacro_file_name)
-    urdf_file_name = 'adis16465_breakout.urdf'
     urdf_file_path = '/home/taka4/ros2_ws/src/ari_driver2/urdf'
+    xacro_file_name = 'orne_gamma.urdf.xacro'
+    xacro_file_path = os.path.join(urdf_file_path, 'gamma', xacro_file_name)
+    urdf_file_name = 'adis16465_breakout.urdf'
 
     declare_nameapace_cmd = DeclareLaunchArgument(
         'namespace', 
@@ -95,12 +96,16 @@ def generate_launch_description():
     )
 
     configured_params = LaunchConfiguration(
-        source_file = device, flame_id, burst_read, publish_temperature, rate
+        device_source_file = device, 
+        flame_id_source_file = flame_id, 
+        burst_read_source_file = burst_read, 
+        publish_temperature_source_file = publish_temperature, 
+        rate_source_file = rate
     )
 
     IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(xacro_file_path, 'orne_gamma.urdf.xacro'))
+            os.path.join(xacro_file_path, 'orne_gamma.urdf.xacro')),
             conditions = IfCondition(with_rviz), 
             launch_arguments = {
                 'namespace': namespace}.items() 
@@ -109,7 +114,7 @@ def generate_launch_description():
     Node(
         package = 'imu', 
         executable = 'adis16465_node', 
-        name = 'adis16465?node', 
+        name = 'adis16465_node', 
         outout = 'screen', 
         parameters = [configured_params]
     )
@@ -140,7 +145,7 @@ def generate_launch_description():
     ld.add_action(declare_nameapace_cmd)
     ld.add_action(declare_with_filter_cmd)
     ld.add_action(declare_with_rviz_cmd)
-    ld.add_action(declare_with_plot)
+    ld.add_action(declare_with_plot_cmd)
     ld.add_action(declare_device_cmd)
     ld.add_action(declare_flame_id_cmd)
     ld.add_action(declare_burst_read_cmd)
