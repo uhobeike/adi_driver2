@@ -138,7 +138,7 @@ int ImuNode::publish_temp_data(void) {
   temp_data_pub_->publish(data);
 }
 bool ImuNode::loop() {
-  loop_timer_ = create_wall_timer(1s, [this]() {
+  loop_timer_ = create_wall_timer(0.01s, [this]() {
     if (burst_mode_) {
       if (imu.update_burst() == 0) {
         publish_imu_data();
