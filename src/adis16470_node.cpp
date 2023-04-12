@@ -39,6 +39,8 @@
 
 #include "adi_driver2/adis16470_node.hpp"
 
+#include <unistd.h>
+
 using namespace std::chrono_literals;
 
 namespace adi_driver2 {
