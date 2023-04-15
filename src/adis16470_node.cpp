@@ -30,13 +30,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// #include <string>
-// #include "ros/ros.h"
-// #include "sensor_msgs/imu_->h"
-// #include "sensor_msgs/Temperature.h"
-// #include "adi_driver/adis16470.h"
-// #include "std_srvs/Trigger.h"
-
 #include "adi_driver2/adis16470_node.hpp"
 
 #include <unistd.h>
@@ -81,8 +74,6 @@ ImuNode::ImuNode()
       create_publisher<sensor_msgs::msg::Temperature>("temperature", 100);
   }
   // Bias estimate service
-  // bias_srv_ = node_handle_.advertiseService("bias_estimate",
-  //                                           &ImuNode::bias_estimate, this);
 
   while (!is_opened()) {
     RCLCPP_WARN(this->get_logger(), "Keep trying to open the device in 1 second period...");

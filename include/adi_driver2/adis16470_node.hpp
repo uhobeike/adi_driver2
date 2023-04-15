@@ -34,7 +34,6 @@
 #include "sensor_msgs/msg/imu.hpp"
 #include "sensor_msgs/msg/temperature.hpp"
 #include <string>
-// #include "std_srvs/Trigger.h"
 
 #include "adi_driver2/adis16470.h"
 
@@ -68,17 +67,5 @@ public:
   bool publish_temperature_;
   std::chrono::milliseconds loop_ms_;
 
-  //   bool bias_estimate(std_srvs::Trigger::Request &req,
-  //                      std_srvs::Trigger::Response &res) {
-  //     ROS_INFO("bias_estimate");
-  //     if (imu.bias_correction_update() < 0) {
-  //       res.success = false;
-  //       res.message = "Bias correction update failed";
-  //       return false;
-  //     }
-  //     res.success = true;
-  //     res.message = "Success";
-  //     return true;
-  //   }
 };
 } // namespace adi_driver2
