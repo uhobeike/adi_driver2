@@ -45,18 +45,20 @@ public:
   ~ImuNode();
 
   bool is_opened(void);
-  bool open(void);
-  int publish_imu_data(void);
-  int publish_temp_data(void);
+  void open(void);
+  void publish_imu_data(void);
+  void publish_temp_data(void);
 
-  bool loop(void);
+  void loop(void);
 
-  Adis16470 imu;
+  std::shared_ptr<Adis16470> imu_;
   rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_data_pub_;
   rclcpp::Publisher<sensor_msgs::msg::Temperature>::SharedPtr temp_data_pub_;
   //   ros::ServiceServer bias_srv_;
 
   rclcpp::TimerBase::SharedPtr loop_timer_;
+
+  rclcpp::Clock system_clock_;
 
   std::string device_;
   std::string frame_id_;

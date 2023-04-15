@@ -149,7 +149,6 @@ void Adis16470::closePort()
 int Adis16470::get_product_id(int16_t& pid)
 {
   // get product ID
-  int r;
   unsigned char buff[20];
 
   // Sending data
@@ -208,7 +207,7 @@ int Adis16470::get_product_id(int16_t& pid)
  * - Adress is the first byte of actual address
  * - Actual data at the adress will be returned by next call.
  */
-int Adis16470::read_register(char address, int16_t& data)
+int Adis16470::read_register(unsigned char address, int16_t& data)
 {
   unsigned char buff[3] = {0x61, address, 0x00};
   int size = write(fd_, buff, 3);
@@ -228,6 +227,8 @@ int Adis16470::read_register(char address, int16_t& data)
     perror("read");
   }
   data = big_endian_to_short(&buff[1]);
+
+  return 0;
 }
 
 /**
@@ -302,7 +303,7 @@ int Adis16470::update_burst(void)
     return -1;
   }
   size = read(fd_, buff, 30);
-  if (size != 30)
+  if (size != 24)
   {
     perror("update_burst");
     return -1;
@@ -389,6 +390,7 @@ int Adis16470::bias_correction_update(void)
   // Bit0: Bias correction update
   int16_t data = 1;
   write_register(0x68, data);
+  return 0;
 }
 
 
