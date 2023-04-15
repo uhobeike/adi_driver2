@@ -11,12 +11,12 @@ ament_auto_find_build_dependencies()
 
 include_directories(include)
 
-ament_auto_add_executable(adis16470
-  src/adis16470.cpp
-  src/adis16470_node.cpp
+ament_auto_add_executable(adis16465
+  src/adis16465.cpp
+  src/adis16465_node.cpp
 )
 
-target_link_libraries(adis16470)
+target_link_libraries(adis16465)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
