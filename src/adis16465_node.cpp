@@ -40,7 +40,7 @@ namespace adi_driver2
 {
 
 ImuNode::ImuNode()
-: Node("adis16470_node"), imu_(std::make_shared<Adis16470>()),
+: Node("adis16465_node"), imu_(std::make_shared<Adis16470>()),
   system_clock_(RCL_SYSTEM_TIME)
 {
   // Read parameters
