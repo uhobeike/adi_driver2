@@ -30,7 +30,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "adi_driver2/adis16470_node.hpp"
+#include "adi_driver2/adis16465_node.hpp"
 
 #include <unistd.h>
 

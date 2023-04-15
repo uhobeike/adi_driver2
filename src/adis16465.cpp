@@ -40,7 +40,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <string>
-#include "adi_driver2/adis16470.h"
+#include "adi_driver2/adis16465.h"
 
 /**
  * @brief change big endian 2 byte into short

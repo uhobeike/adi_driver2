@@ -35,7 +35,7 @@
 #include "sensor_msgs/msg/temperature.hpp"
 #include <string>
 
-#include "adi_driver2/adis16470.h"
+#include "adi_driver2/adis16465.h"
 
 namespace adi_driver2
 {
