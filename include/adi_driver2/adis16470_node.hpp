@@ -38,8 +38,10 @@
 
 #include "adi_driver2/adis16470.h"
 
-namespace adi_driver2 {
-class ImuNode : public rclcpp::Node {
+namespace adi_driver2
+{
+class ImuNode : public rclcpp::Node
+{
 public:
   ImuNode();
   ~ImuNode();

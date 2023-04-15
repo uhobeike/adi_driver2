@@ -43,10 +43,13 @@
 
 using namespace std::chrono_literals;
 
-namespace adi_driver2 {
+namespace adi_driver2
+{
 
-ImuNode::ImuNode() : Node("adis16470_node"), imu_(std::make_shared<Adis16470>()), 
-                     system_clock_(RCL_SYSTEM_TIME) {
+ImuNode::ImuNode()
+: Node("adis16470_node"), imu_(std::make_shared<Adis16470>()),
+  system_clock_(RCL_SYSTEM_TIME)
+{
   // Read parameters
   declare_parameter("device", "/dev/ttyACM0");
   declare_parameter("frame_id", "imu");
@@ -64,46 +67,49 @@ ImuNode::ImuNode() : Node("adis16470_node"), imu_(std::make_shared<Adis16470>())
   RCLCPP_INFO(this->get_logger(), "device: %s", device_.c_str());
   RCLCPP_INFO(this->get_logger(), "frame_id: %s", frame_id_.c_str());
   RCLCPP_INFO(this->get_logger(), "rate: %f [Hz]", get_parameter("rate").get_value<double>());
-  RCLCPP_INFO(this->get_logger(), "burst_mode: %s",
-              (burst_mode_ ? "true" : "false"));
-  RCLCPP_INFO(this->get_logger(), "publish_temperature: %s",
-              (publish_temperature_ ? "true" : "false"));
+  RCLCPP_INFO(
+    this->get_logger(), "burst_mode: %s",
+    (burst_mode_ ? "true" : "false"));
+  RCLCPP_INFO(
+    this->get_logger(), "publish_temperature: %s",
+    (publish_temperature_ ? "true" : "false"));
 
   // Data publisher
   imu_data_pub_ = create_publisher<sensor_msgs::msg::Imu>("data_raw", 100);
   if (publish_temperature_) {
     temp_data_pub_ =
-        create_publisher<sensor_msgs::msg::Temperature>("temperature", 100);
+      create_publisher<sensor_msgs::msg::Temperature>("temperature", 100);
   }
   // Bias estimate service
   // bias_srv_ = node_handle_.advertiseService("bias_estimate",
   //                                           &ImuNode::bias_estimate, this);
 
-  while (!is_opened())
-  {
+  while (!is_opened()) {
     RCLCPP_WARN(this->get_logger(), "Keep trying to open the device in 1 second period...");
     sleep(1);
     open();
-  }  
+  }
 
   loop();
 }
 
-ImuNode::~ImuNode() { imu_->closePort(); }
+ImuNode::~ImuNode() {imu_->closePort();}
 
 /**
  * @brief Check if the device is opened
  */
-bool ImuNode::is_opened(void) { return (imu_->fd_ >= 0); }
+bool ImuNode::is_opened(void) {return imu_->fd_ >= 0;}
 
 /**
  * @brief Open IMU device file
  */
-void ImuNode::open(void) {
+void ImuNode::open(void)
+{
   // Open device file
   if (imu_->openPort(device_) < 0) {
-    RCLCPP_ERROR(this->get_logger(), "Failed to open device %s",
-                 device_.c_str());
+    RCLCPP_ERROR(
+      this->get_logger(), "Failed to open device %s",
+      device_.c_str());
   }
   // Wait 10ms for SPI ready
   usleep(10000);
@@ -113,7 +119,8 @@ void ImuNode::open(void) {
   imu_->set_bias_estimation_time(0x070a);
 }
 
-void ImuNode::publish_imu_data() {
+void ImuNode::publish_imu_data()
+{
   sensor_msgs::msg::Imu data;
   data.header.frame_id = frame_id_;
   data.header.stamp = system_clock_.now();
@@ -137,7 +144,8 @@ void ImuNode::publish_imu_data() {
   imu_data_pub_->publish(data);
 }
 
-void ImuNode::publish_temp_data(void) {
+void ImuNode::publish_temp_data(void)
+{
   sensor_msgs::msg::Temperature data;
   data.header.frame_id = frame_id_;
   data.header.stamp = system_clock_.now();
@@ -149,46 +157,45 @@ void ImuNode::publish_temp_data(void) {
   temp_data_pub_->publish(data);
 }
 
-void ImuNode::loop() {
-  loop_timer_ = create_wall_timer(loop_ms_, [this]() {
-    if (burst_mode_) {
-      if (imu_->update_burst() == 0) {
-        publish_imu_data();
+void ImuNode::loop()
+{
+  loop_timer_ = create_wall_timer(
+    loop_ms_, [this]() {
+      if (burst_mode_) {
+        if (imu_->update_burst() == 0) {
+          publish_imu_data();
+        } else {
+          RCLCPP_ERROR(this->get_logger(), "Cannot update burst");
+        }
+      } else if (publish_temperature_) {
+        if (imu_->update() == 0) {
+          publish_imu_data();
+          publish_temp_data();
+        } else {
+          RCLCPP_ERROR(this->get_logger(), "Cannot update");
+        }
+      } else if (burst_mode_ && publish_temperature_) {
+        if (imu_->update_burst() == 0) {
+          publish_imu_data();
+          publish_temp_data();
+        } else {
+          RCLCPP_ERROR(this->get_logger(), "Cannot update burst");
+        }
       } else {
-        RCLCPP_ERROR(this->get_logger(), "Cannot update burst");
+        if (imu_->update() == 0) {
+          publish_imu_data();
+        } else {
+          RCLCPP_ERROR(this->get_logger(), "Cannot update");
+        }
       }
-    } else if (publish_temperature_) {
-      if (imu_->update() == 0) {
-        publish_imu_data();
-        publish_temp_data();
-      } else {
-        RCLCPP_ERROR(this->get_logger(), "Cannot update");
-      }
-    } else if (burst_mode_ && publish_temperature_) {
-      if (imu_->update_burst() == 0) {
-        publish_imu_data();
-        publish_temp_data();
-      } else {
-        RCLCPP_ERROR(this->get_logger(), "Cannot update burst");
-      }
-    } else {
-      if (imu_->update() == 0) {
-        publish_imu_data();
-      } else {
-        RCLCPP_ERROR(this->get_logger(), "Cannot update");
-      }
-    }
-  });
+    });
 }
 } // namespace adi_driver2
 
-int main(int argc, char **argv) {
+int main(int argc, char ** argv)
+{
   rclcpp::init(argc, argv);
-  auto ndt_scan_matcher = std::make_shared<adi_driver2::ImuNode>();
-  rclcpp::executors::MultiThreadedExecutor exec;
-  exec.add_node(ndt_scan_matcher);
-  exec.spin();
+  spin(std::make_shared<adi_driver2::ImuNode>());
   rclcpp::shutdown();
   return 0;
-  return (0);
 }
