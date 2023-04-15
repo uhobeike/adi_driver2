@@ -13,12 +13,7 @@
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>imu_filter_madgwick</depend>
   <depend>sensor_msgs</depend>
-  <depend>std_srvs</depend>
-  <depend>rviz</depend>
-  <depend>rviz_imu_plugin</depend>
-  <depend>rqt_plot</depend>
   <depend>xacro</depend>
 
   <test_depend>ament_lint_auto</test_depend>
