@@ -30,37 +30,42 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef ADI_DRIVER_ADIS16470_H
-#define ADI_DRIVER_ADIS16470_H
-
-#include <termios.h>
+#include "rclcpp/rclcpp.hpp"
+#include "sensor_msgs/msg/imu.hpp"
+#include "sensor_msgs/msg/temperature.hpp"
 #include <string>
 
-class Adis16470
+#include "adi_driver2/adis16465.h"
+
+namespace adi_driver2
+{
+class ImuNode : public rclcpp::Node
 {
 public:
-  //! File descripter for USB-ISS
-  int fd_;
-  //! Saved terminal config
-  struct termios defaults_;
+  ImuNode();
+  ~ImuNode();
 
-  // Gyro sensor(x, y, z)
-  double gyro[3];
-  // Acceleration sensor(x, y, z)
-  double accl[3];
-  // Temperature sensor
-  double temp;
+  bool is_opened(void);
+  void open(void);
+  void publish_imu_data(void);
+  void publish_temp_data(void);
 
-  Adis16470();
-  int openPort(const std::string device);
-  void closePort();
-  int get_product_id(int16_t& data);
-  int update(void);
-  int update_burst(void);
-  int read_register(char address, int16_t& data);
-  int write_register(char address, int16_t data);
-  int bias_correction_update(void);
-  int set_bias_estimation_time(int16_t tbc);
+  void loop(void);
+
+  std::shared_ptr<Adis16470> imu_;
+  rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_data_pub_;
+  rclcpp::Publisher<sensor_msgs::msg::Temperature>::SharedPtr temp_data_pub_;
+  //   ros::ServiceServer bias_srv_;
+
+  rclcpp::TimerBase::SharedPtr loop_timer_;
+
+  rclcpp::Clock system_clock_;
+
+  std::string device_;
+  std::string frame_id_;
+  bool burst_mode_;
+  bool publish_temperature_;
+  std::chrono::milliseconds loop_ms_;
+
 };
-
-#endif  // ADI_DRIVER_ADIS16470_H
+} // namespace adi_driver2

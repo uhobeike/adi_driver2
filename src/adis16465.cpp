@@ -30,7 +30,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "ros/ros.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,17 +39,17 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <string>
-#include "adi_driver/adis16470.h"
+#include "adi_driver2/adis16465.h"
 
 /**
  * @brief change big endian 2 byte into short
  * @param data Head pointer to the data
  * @retrun converted value
  */
-int16_t big_endian_to_short(unsigned char *data)
+int16_t big_endian_to_short(unsigned char * data)
 {
   unsigned char buff[2] = {data[1], data[0]};
-  return *reinterpret_cast<int16_t*>(buff);
+  return *reinterpret_cast<int16_t *>(buff);
 }
 
 /**
@@ -58,7 +57,7 @@ int16_t big_endian_to_short(unsigned char *data)
  * @param data Head pointer to the data
  * @retrun converted value
  */
-void short_to_big_endian(unsigned char *buff, int16_t data)
+void short_to_big_endian(unsigned char * buff, int16_t data)
 {
   buff[0] = data >> 8;
   buff[1] = data & 0x00ff;
@@ -68,7 +67,7 @@ void short_to_big_endian(unsigned char *buff, int16_t data)
  * @brief Constructor
  */
 Adis16470::Adis16470()
-  : fd_(-1)
+: fd_(-1)
 {
 }
 
@@ -81,20 +80,17 @@ Adis16470::Adis16470()
 int Adis16470::openPort(const std::string device)
 {
   fd_ = open(device.c_str(), O_RDWR | O_NOCTTY);
-  if (fd_ < 0)
-  {
+  if (fd_ < 0) {
     perror("openPort");
     return -1;
   }
-  if (tcgetattr(fd_, &defaults_) < 0)
-  {
+  if (tcgetattr(fd_, &defaults_) < 0) {
     perror("openPort");
     return -1;
   }
   struct termios config;
   cfmakeraw(&config);
-  if (tcsetattr(fd_, TCSANOW, &config) < 0)
-  {
+  if (tcsetattr(fd_, TCSANOW, &config) < 0) {
     perror("openPort");
     return -1;
   }
@@ -106,23 +102,19 @@ int Adis16470::openPort(const std::string device)
   buff[3] = 5;  // 1MHz clock speed
 
   int size = write(fd_, buff, 4);
-  if (size != 4)
-  {
+  if (size != 4) {
     perror("openPort");
   }
-  if (tcdrain(fd_) < 0)
-  {
+  if (tcdrain(fd_) < 0) {
     perror("openPort");
   }
   size = read(fd_, buff, 2);
-  if (size != 2)
-  {
+  if (size != 2) {
     perror("openPort");
     return -1;
   }
   // Check first byte
-  if (buff[0] != 0xff)
-  {
+  if (buff[0] != 0xff) {
     perror("openPort");
     return -1;
   }
@@ -134,8 +126,7 @@ int Adis16470::openPort(const std::string device)
  */
 void Adis16470::closePort()
 {
-  if (tcsetattr(fd_, TCSANOW, &defaults_) < 0)
-  {
+  if (tcsetattr(fd_, TCSANOW, &defaults_) < 0) {
     perror("closePort");
   }
   close(fd_);
@@ -146,10 +137,9 @@ void Adis16470::closePort()
  * @retval 0 Success
  * @retval -1 Failed
  */
-int Adis16470::get_product_id(int16_t& pid)
+int Adis16470::get_product_id(int16_t & pid)
 {
   // get product ID
-  int r;
   unsigned char buff[20];
 
   // Sending data
@@ -157,19 +147,16 @@ int Adis16470::get_product_id(int16_t& pid)
   buff[1] = 0x72;
   buff[2] = 0x00;
   int size = write(fd_, buff, 3);
-  if (size != 3)
-  {
+  if (size != 3) {
     perror("get_product_id");
     return -1;
   }
-  if (tcdrain(fd_) < 0)
-  {
+  if (tcdrain(fd_) < 0) {
     perror("get_product_id");
     return -1;
   }
   size = read(fd_, buff, 3);
-  if (size != 3)
-  {
+  if (size != 3) {
     perror("get_product_id");
     return -1;
   }
@@ -178,19 +165,16 @@ int Adis16470::get_product_id(int16_t& pid)
   buff[1] = 0x00;
   buff[2] = 0x00;
   size = write(fd_, buff, 3);
-  if (size != 3)
-  {
+  if (size != 3) {
     perror("get_product_id");
     return -1;
   }
-  if (tcdrain(fd_) < 0)
-  {
+  if (tcdrain(fd_) < 0) {
     perror("get_product_id");
     return -1;
   }
   size = read(fd_, buff, 3);
-  if (size != 3)
-  {
+  if (size != 3) {
     perror("get_product_id");
     return -1;
   }
@@ -204,30 +188,29 @@ int Adis16470::get_product_id(int16_t& pid)
  * @param address Register address
  * @retval 0 Success
  * @retval -1 Failed
- * 
+ *
  * - Adress is the first byte of actual address
  * - Actual data at the adress will be returned by next call.
  */
-int Adis16470::read_register(char address, int16_t& data)
+int Adis16470::read_register(unsigned char address, int16_t & data)
 {
   unsigned char buff[3] = {0x61, address, 0x00};
   int size = write(fd_, buff, 3);
-  if (size != 3)
-  {
+  if (size != 3) {
     perror("read_register");
     return -1;
   }
-  if (tcdrain(fd_) < 0)
-  {
+  if (tcdrain(fd_) < 0) {
     perror("read_register");
     return -1;
   }
   size = read(fd_, buff, 3);
-  if (size !=3)
-  {
+  if (size != 3) {
     perror("read");
   }
   data = big_endian_to_short(&buff[1]);
+
+  return 0;
 }
 
 /**
@@ -235,7 +218,7 @@ int Adis16470::read_register(char address, int16_t& data)
  * @param address Register address
  * @retval 0 Success
  * @retval -1 Failed
- * 
+ *
  * - Adress is the first byte of actual address.
  * - Specify data at the adress.
  */
@@ -250,25 +233,21 @@ int Adis16470::write_register(char address, int16_t data)
   buff[4] = data >> 8;
 
   int size = write(fd_, buff, sizeof(buff));
-  if (size != sizeof(buff))
-  {
+  if (size != sizeof(buff)) {
     perror("write_register");
     return -1;
   }
-  if (tcdrain(fd_) < 0)
-  {
+  if (tcdrain(fd_) < 0) {
     perror("write_register");
     return -1;
   }
   unsigned char recv_buff[5] = {0, 0, 0, 0, 0};
   size = read(fd_, recv_buff, sizeof(recv_buff));
-  if (size != sizeof(recv_buff))
-  {
+  if (size != sizeof(recv_buff)) {
     perror("write_register");
     return -1;
   }
-  if (recv_buff[0] != 0xff)
-  {
+  if (recv_buff[0] != 0xff) {
     perror("write_register: ACK error");
     return -1;
   }
@@ -279,8 +258,8 @@ int Adis16470::write_register(char address, int16_t data)
  * @brief Update all information by bust read
  * @retval 0 Success
  * @retval -1 Failed
- * 
- * - See burst read function at pp.14 
+ *
+ * - See burst read function at pp.14
  * - Data resolution is 16 bit
  */
 int Adis16470::update_burst(void)
@@ -291,25 +270,21 @@ int Adis16470::update_burst(void)
   buff[1] = 0x68;
   buff[2] = 0x00;
   int size = write(fd_, buff, 24);
-  if (size != 24)
-  {
+  if (size != 24) {
     perror("update_burst");
     return -1;
   }
-  if (tcdrain(fd_) < 0)
-  {
+  if (tcdrain(fd_) < 0) {
     perror("update_burst");
     return -1;
   }
   size = read(fd_, buff, 30);
-  if (size != 30)
-  {
+  if (size != 24) {
     perror("update_burst");
     return -1;
   }
   int16_t diag_stat = big_endian_to_short(&buff[3]);
-  if (diag_stat != 0)
-  {
+  if (diag_stat != 0) {
     fprintf(stderr, "diag_stat error: %04x\n", (uint16_t)diag_stat);
     return -1;
   }
@@ -354,12 +329,11 @@ int Adis16470::update(void)
 
   // temperature convert
   temp = temp_out * 0.1;
-  
+
   // 32bit convert
-  for (int i=0; i < 3; i++)
-  {
-    gyro[i] = ((int32_t(gyro_out[i]) << 16) + int32_t(gyro_low[i])) * M_PI / 180.0 / 655360.0;
-    accl[i] = ((int32_t(accl_out[i]) << 16) + int32_t(accl_low[i])) * 9.8 / 52428800.0;
+  for (int i = 0; i < 3; i++) {
+    gyro[i] = ((int32_t(gyro_out[i]) << 16) + int32_t(gyro_low[i])) * M_PI / 180.0 / 2621440.0;
+    accl[i] = ((int32_t(accl_out[i]) << 16) + int32_t(accl_low[i])) * 9.8 / 262144000;
   }
   return 0;
 }
@@ -376,7 +350,6 @@ int Adis16470::set_bias_estimation_time(int16_t tbc)
   int16_t dummy = 0;
   read_register(0x66, dummy);
   read_register(0x00, tbc);
-  ROS_INFO("TBC: %04x", tbc);
   return 0;
 }
 
@@ -390,6 +363,5 @@ int Adis16470::bias_correction_update(void)
   // Bit0: Bias correction update
   int16_t data = 1;
   write_register(0x68, data);
+  return 0;
 }
-
-
