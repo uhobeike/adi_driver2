@@ -21,7 +21,7 @@ def generate_launch_description():
     declare_namespace = DeclareLaunchArgument(
         'namespace',
         default_value='imu',
-        description='Set namespace for imu topic.')
+        description='Set namespace for node.')
 
     adis16465 = Node(
         name='adis16465_node',
